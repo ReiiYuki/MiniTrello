@@ -1,7 +1,9 @@
-package skesw12.minitrello;
+package skesw12.minitrello.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import skesw12.minitrello.R;
 
 public class MainActivity extends AppCompatActivity {
 
