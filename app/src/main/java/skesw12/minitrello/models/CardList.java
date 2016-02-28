@@ -7,11 +7,11 @@ import java.util.Date;
 /**
  * Created by YukiReii on 29/2/2559.
  */
-public class CardList extends ArrayList {
-    private String name;
+public class CardList extends ArrayList<Card> {
+    private String title;
     private long createTime;
-    public CardList(String name){
-        this.name = name;
+    public CardList(String title){
+        this.title = title;
         createTime = System.currentTimeMillis();
     }
 
@@ -30,12 +30,12 @@ public class CardList extends ArrayList {
         return createTime == cardList.createTime;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getReadableCreatedTime(){
