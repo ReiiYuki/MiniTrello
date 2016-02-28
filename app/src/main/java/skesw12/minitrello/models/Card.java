@@ -52,8 +52,8 @@ public class Card {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        CardList cardList = (CardList) o;
+        Card card = (Card) o;
 
-        return createTime == cardList.createTime;
+        return createTime == card.createTime;
     }
 }
