@@ -30,12 +30,10 @@ public class CardListAdapter extends ArrayAdapter<CardList>{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View v = convertView;
-
         if(v == null) {
             LayoutInflater vi = LayoutInflater.from(getContext());
             v = vi.inflate(R.layout.cardlist_component, null);
         }
-
         TextView title = (TextView)v.findViewById(R.id.cardlist_title);
         TextView dateTime = (TextView) v.findViewById(R.id.cardlist_createtime);
         ListView cardListList = (ListView) v.findViewById(R.id.cardlist_list);
@@ -43,7 +41,8 @@ public class CardListAdapter extends ArrayAdapter<CardList>{
         title.setText(cardList.getTitle());
         dateTime.setText(cardList.getReadableCreatedTime());
         for (Card card : cardList) cards.add(card);
-        //TODO WAIT FOR ADAPTER
+        CardAdapter adapter = new CardAdapter(getContext(),R.layout.card,cards);
+        cardListList.setAdapter(adapter);
         return v;
     }
 }
