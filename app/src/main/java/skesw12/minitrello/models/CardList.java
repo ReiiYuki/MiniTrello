@@ -34,6 +34,10 @@ public class CardList extends ArrayList<Card> {
         return title;
     }
 
+    public long getCreateTime() {
+        return createTime;
+    }
+
     public void setTitle(String title) {
         this.title = title;
     }
