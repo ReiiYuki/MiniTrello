@@ -64,9 +64,13 @@ public class MainActivity extends AppCompatActivity {
         inputCardListTitle.setVisibility(View.GONE);
         addCardListButton.setVisibility(View.VISIBLE);
         refresh();
+        inputCardListTitle.setText("");
+
+
     }
 
     private void refresh(){
+
         cardLists.clear();
         for (CardList cl:Storage.getInstance().loadCardLists()) cardLists.add(cl);
         adapter.notifyDataSetChanged();
