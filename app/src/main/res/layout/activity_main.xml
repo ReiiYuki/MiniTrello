@@ -8,17 +8,31 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".activities.MainActivity"
-    android:orientation="horizontal" >
+    android:orientation="vertical" >
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Input your Card List Title"
+        android:id="@+id/input_cardlist_box"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_cardlist_button"
+        android:text="Add Card List"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="No card List!"
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        android:textSize="@dimen/fab_margin"
+        android:id="@+id/no_card_list_label"/>
     <skesw12.minitrello.views.HorizontalListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/cardlist_hlistview"
-
         ></skesw12.minitrello.views.HorizontalListView>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add Card List"
-        android:id="@+id/add_cardlist_button"
-        android:layout_toRightOf="@id/cardlist_hlistview"/>
+
+
 </LinearLayout>
