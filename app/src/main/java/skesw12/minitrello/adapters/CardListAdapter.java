@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -20,9 +21,9 @@ import skesw12.minitrello.models.CardList;
  */
 public class CardListAdapter extends ArrayAdapter<CardList>{
     List<Card> cards;
+    CardList selected;
     public CardListAdapter(Context context, int resource, List<CardList> objects) {
         super(context, resource, objects);
-        cards = new ArrayList<Card>();
     }
 
     @Override
@@ -33,7 +34,6 @@ public class CardListAdapter extends ArrayAdapter<CardList>{
             LayoutInflater vi = LayoutInflater.from(getContext());
             v = vi.inflate(R.layout.cardlist_component, null);
         }
-
         TextView title = (TextView)v.findViewById(R.id.cardlist_title);
         TextView dateTime = (TextView) v.findViewById(R.id.cardlist_createtime);
         ListView cardListList = (ListView) v.findViewById(R.id.cardlist_list);

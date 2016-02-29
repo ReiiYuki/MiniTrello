@@ -30,5 +30,27 @@
         android:id="@+id/add_card_button"
         android:text="Add card"
         android:gravity="center"/>
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:id="@+id/createcardbox"
+        android:orientation="vertical">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Card Title"
+            android:id="@+id/card_id_input"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Card Description"
+            android:id="@+id/card_description_input"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add New Card"
+            android:id="@+id/add_new_card_button"/>
+        >
+    </LinearLayout>
 </LinearLayout>
