@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         horizontalListView.setAdapter(adapter);
         refresh();
         addCardListButton = (Button)findViewById(R.id.add_cardlist_button);
+
         noCardLabel = (TextView) findViewById(R.id.no_card_list_label);
         inputCardListTitle = (EditText)findViewById(R.id.input_cardlist_box);
         inputCardListTitle.setVisibility(View.GONE);
@@ -47,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
                 inputCardListTitle.setVisibility(View.VISIBLE);
             }
         });
+
+
         inputCardListTitle.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
