@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private Button addCardListButton;
     private List<CardList> cardLists;
     private CardListAdapter adapter;
+    private Button addCardButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

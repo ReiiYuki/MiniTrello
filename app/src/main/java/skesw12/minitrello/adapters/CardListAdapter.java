@@ -46,5 +46,4 @@ public class CardListAdapter extends ArrayAdapter<CardList>{
         return v;
     }
 
-
 }

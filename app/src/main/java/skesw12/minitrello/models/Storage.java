@@ -25,4 +25,7 @@ public class Storage {
     public void removeCardList(CardList cardList){
         cardLists.remove(cardList);
     }
+    public void addCard(int position,Card card){
+        cardLists.get(position).add(card);
+    }
 }
