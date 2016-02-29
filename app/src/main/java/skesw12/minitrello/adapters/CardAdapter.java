@@ -1,4 +1,4 @@
-package skesw12.minitrello.views;
+package skesw12.minitrello.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
