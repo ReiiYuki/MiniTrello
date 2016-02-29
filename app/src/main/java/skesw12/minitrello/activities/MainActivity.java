@@ -17,11 +17,23 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initComponent();
+    }
+    private void initComponent(){
         List<CardList> cardLists = new ArrayList<CardList>();
-        cardLists.add(new CardList("AAA"));
-        cardLists.add(new CardList("AAA"));
+        cardLists.add(new CardList("SDAADSDAS"));
+        cardLists.add(new CardList("SDAADSDAS"));
+        cardLists.add(new CardList("SDAADSDAS"));
+        cardLists.add(new CardList("SDAADSDAS"));
+        cardLists.add(new CardList("SDAADSDAS"));
+        cardLists.add(new CardList("SDAADSDAS"));
+        cardLists.add(new CardList("SDAADSDAS"));
+        cardLists.add(new CardList("SDAADSDAS"));
+        cardLists.add(new CardList("SDAADSDAS"));
         CardListAdapter adapter = new CardListAdapter(this,R.layout.cardlist_component,cardLists);
         HorizontalListView horizontalListView = (HorizontalListView)findViewById(R.id.cardlist_hlistview);
         horizontalListView.setAdapter(adapter);
     }
+
+
 }

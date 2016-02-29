@@ -7,11 +7,18 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".activities.MainActivity">
-
+    tools:context=".activities.MainActivity"
+    android:orientation="horizontal" >
     <skesw12.minitrello.views.HorizontalListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/cardlist_hlistview"
+
         ></skesw12.minitrello.views.HorizontalListView>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Card List"
+        android:id="@+id/add_cardlist_button"
+        android:layout_toRightOf="@id/cardlist_hlistview"/>
 </LinearLayout>
