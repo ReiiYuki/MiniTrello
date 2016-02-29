@@ -41,8 +41,8 @@ public class CardListAdapter extends ArrayAdapter<CardList>{
         title.setText(cardList.getTitle());
         dateTime.setText(cardList.getReadableCreatedTime());
         for (Card card : cardList) cards.add(card);
-        CardAdapter adapter = new CardAdapter(getContext(),R.layout.card,cards);
-        cardListList.setAdapter(adapter);
+//        CardAdapter adapter = new CardAdapter(getContext(),R.layout.card,cards);
+//        cardListList.setAdapter(adapter);
         return v;
     }
 
