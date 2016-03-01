@@ -6,6 +6,26 @@
     android:paddingLeft="2dp"
     android:paddingRight="2dp"
     >
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Input your Card List Title"
+        android:id="@+id/input_cardlist_box"/>
+    <Button
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_cardlist_button"
+        android:text="Add Card List"
+        android:layout_gravity="center" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No card List!"
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        android:textSize="@dimen/fab_margin"
+        android:id="@+id/no_card_list_label"/>
+
     <TextView
         android:layout_width="300dp"
         android:layout_gravity="center"
