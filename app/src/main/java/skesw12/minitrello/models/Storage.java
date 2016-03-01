@@ -1,12 +1,13 @@
 package skesw12.minitrello.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by YukiReii on 29/2/2559.
  */
-public class Storage {
+public class Storage implements Serializable{
     private static Storage instance;
     private List<CardList> cardLists;
     private Storage(){

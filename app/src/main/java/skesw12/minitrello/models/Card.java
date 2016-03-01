@@ -1,12 +1,13 @@
 package skesw12.minitrello.models;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
  * Created by YukiReii on 29/2/2559.
  */
-public class Card {
+public class Card implements Serializable{
     private String name;
     private String description;
     private long createTime;

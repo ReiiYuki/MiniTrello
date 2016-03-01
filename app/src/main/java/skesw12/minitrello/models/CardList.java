@@ -1,5 +1,6 @@
 package skesw12.minitrello.models;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -7,7 +8,7 @@ import java.util.Date;
 /**
  * Created by YukiReii on 29/2/2559.
  */
-public class CardList extends ArrayList<Card> {
+public class CardList extends ArrayList<Card> implements Serializable{
     private String title;
     private long createTime;
     public CardList(String title){

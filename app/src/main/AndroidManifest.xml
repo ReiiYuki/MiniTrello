@@ -13,20 +13,26 @@
         <!-- android:configChanges="orientation|screenSize|keyboard" is use Keep adapter when screen rotate -->
         <activity
             android:name=".activities.MainActivity"
-            android:configChanges="orientation|screenSize|keyboard">
-        </activity>
-        <activity android:name=".newactivities.MainActivity2" />
+            android:configChanges="orientation|screenSize|keyboard"
+            android:launchMode="singleTop"/>
+        <activity android:name=".newactivities.MainActivity2"
+            android:launchMode="singleTop"/>
         <activity
             android:name=".activities.HomeActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="MINI TRELLO"
-            android:theme="@style/FullscreenTheme">
+            android:theme="@style/FullscreenTheme"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".newactivities.SimpleCardListActivity"
+            android:launchMode="singleTop"/>
+        <activity android:name=".newactivities.SimpleCardActivity"
+            android:launchMode="singleTop"></activity>
     </application>
 
 </manifest>
