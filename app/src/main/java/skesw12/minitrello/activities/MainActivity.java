@@ -2,6 +2,7 @@ package skesw12.minitrello.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -32,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private void initComponent(){
         cardLists = new ArrayList<CardList>();
-        adapter = new CardListAdapter(this,R.layout.cardlist_component,cardLists);
+        adapter = new CardListAdapter(this,R.layout.cardlist_component,Storage.getInstance().loadCardLists());
         HorizontalListView horizontalListView = (HorizontalListView)findViewById(R.id.cardlist_hlistview);
         horizontalListView.setAdapter(adapter);
         refresh();
@@ -69,14 +70,9 @@ public class MainActivity extends AppCompatActivity {
         addCardListButton.setVisibility(View.VISIBLE);
         refresh();
         inputCardListTitle.setText("");
-
-
     }
 
     private void refresh(){
-
-        cardLists.clear();
-        for (CardList cl:Storage.getInstance().loadCardLists()) cardLists.add(cl);
         adapter.notifyDataSetChanged();
     }
 
