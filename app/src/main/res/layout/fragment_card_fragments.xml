@@ -1,0 +1,36 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="skesw12.minitrello.activities.CardFragments">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <Button
+        android:id="@+id/add_button"
+        android:text="add something "
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+
+        />
+
+    <EditText
+        android:id="@+id/edit_text"
+        android:hint="type here"
+        android:textAlignment="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/textview"
+        android:textSize="30dp"
+        android:textAlignment="center"
+        android:layout_width="match_parent"
+        android:layout_height="205dp"
+        android:text="@string/hello_blank_fragment" />
+
+</LinearLayout>
