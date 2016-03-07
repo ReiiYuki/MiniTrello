@@ -1,9 +1,9 @@
 package skesw12.minitrello.activities;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +30,7 @@ public class CardFragments extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
+    private String title;
     private String mParam2;
     private String state;
     private CardList cardLists;
@@ -64,14 +64,14 @@ public class CardFragments extends Fragment {
     }
 
     public void setMyText(String s){
-        mParam1 = s;
+        title = s;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
+            title = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
@@ -82,24 +82,55 @@ public class CardFragments extends Fragment {
         // Inflate the layout for this fragment
         rootView =  inflater.inflate(R.layout.fragment_card_fragments, container, false);
         textView = (TextView)rootView.findViewById(R.id.textview);
-        textView.setText(" status : " + mParam1);
+        textView.setText(title);
+        cardList_title_input = (EditText)rootView.findViewById(R.id.edit_text);
         addButton = (Button)rootView.findViewById(R.id.add_button);
+
+        int index = MainActivity.viewPager.getCurrentItem();
+        CardList currentCardList = Storage.getInstance().loadCardLists().get(index);
+
+
+        if(currentCardList.getSTATUS()==CardList.EMPTY){
+            cardList_title_input.setVisibility(View.GONE);
+            addButton.setVisibility(View.VISIBLE);
+        }
+
+        else if(currentCardList.getSTATUS()==CardList.ADDED){
+            addButton.setVisibility(View.GONE);
+            cardList_title_input.setVisibility(View.GONE);
+        }
+
+
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int index = MainActivity.viewPager.getCurrentItem();
-                textView.setText("clicked");
-//                Storage.getInstance().loadCardLists().get(index).setSubject("clicked");
 
-                Storage.getInstance().addCardList(new CardList("PAGE : " + Storage.getInstance().loadCardLists().size()));
-//                Log.e("check", Storage.getInstance().loadCardLists().size() + "");
-                MainActivity.pageradapter.notifyDataSetChanged();
-
-
-//                MainActivity.viewPager.setCurrentItem(MainActivity.viewPager.getBottom(), true);
-
+                cardList_title_input.setVisibility(View.VISIBLE);
+                addButton.setVisibility(View.GONE);
             }
         });
+
+        cardList_title_input.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    int index = MainActivity.viewPager.getCurrentItem();
+                    cardList_title_input.setVisibility(View.GONE);
+                    addButton.setVisibility(View.GONE);
+                    Storage.getInstance().loadCardLists().get(index).setSTATUS(CardList.ADDED);
+                    String newText = cardList_title_input.getText().toString();
+                    Storage.getInstance().loadCardLists().get(index).setTitle(newText);
+                    textView.setText("clicked");
+                    MainActivity.pageradapter.notifyDataSetChanged();
+                    if (cardList_title_input.getText().toString().equals("")) return true;
+                    textView.setText(cardList_title_input.getText().toString());
+                    Storage.getInstance().addCardList(new CardList("PAGE : " + Storage.getInstance().loadCardLists().size()));
+                    MainActivity.pageradapter.notifyDataSetChanged();
+                    return true;
+                }
+                return false;
+            }});
+
         
         return rootView;
     }
@@ -111,16 +142,7 @@ public class CardFragments extends Fragment {
         }
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-    }
+
 
     @Override
     public void onDetach() {

@@ -11,8 +11,15 @@ import java.util.Date;
 public class CardList extends ArrayList<Card> implements Serializable{
     private String title;
     private long createTime;
+    private int STATUS;
+    public final static int EMPTY  = 0 ;
+    public final static int ADDED = 1;
+
     public CardList(String title){
         this.title = title;
+
+        this.STATUS = EMPTY;
+
         createTime = System.currentTimeMillis();
     }
 
@@ -48,4 +55,16 @@ public class CardList extends ArrayList<Card> implements Serializable{
         Date date = new Date(createTime);
         return sdf.format(date);
     }
+
+
+
+    public int getSTATUS() {
+        return STATUS;
+    }
+
+    public void setSTATUS(int STATUS){
+        this.STATUS = STATUS;
+    }
+
+
 }
