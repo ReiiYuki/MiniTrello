@@ -17,7 +17,6 @@ public class CardList extends ArrayList<Card> implements Serializable{
 
     public CardList(String title){
         this.title = title;
-
         this.STATUS = EMPTY;
 
         createTime = System.currentTimeMillis();

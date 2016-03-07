@@ -8,6 +8,7 @@ import java.util.List;
 
 import skesw12.minitrello.activities.CardFragments;
 import skesw12.minitrello.models.CardList;
+import skesw12.minitrello.models.Storage;
 
 /**
  * Created by nattapat on 3/6/2016 AD.
@@ -27,7 +28,8 @@ public class PagerAdapter  extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return CardFragments.newInstance(list.get(position).getTitle(), "");
+        return CardFragments.newInstance(list.get(position).getTitle(),
+                Storage.getInstance().loadCardLists().get(position).getSTATUS());
     }
 
 //    public Fragment getActiveFragment(ViewPager container, int position) {

@@ -3,6 +3,7 @@ package skesw12.minitrello.activities;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +38,8 @@ public class CardFragments extends Fragment {
     private TextView textView;
     private View rootView;
 
+    int status;
+
     private OnFragmentInteractionListener mListener;
     private EditText cardList_title_input;
     private Button addButton;
@@ -54,12 +57,15 @@ public class CardFragments extends Fragment {
      * @return A new instance of fragment CardFragments.
      */
     // TODO: Rename and change types and number of parameters
-    public static CardFragments newInstance(String param1, String param2) {
+    public static CardFragments newInstance(String param1, int param2) {
         CardFragments fragment = new CardFragments();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+//        args.putString(ARG_PARAM2, param2);
+        args.putInt(ARG_PARAM2,param2);
         fragment.setArguments(args);
+
+        Log.e("check","Fragement is created");
         return fragment;
     }
 
@@ -72,8 +78,9 @@ public class CardFragments extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             title = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            status = getArguments().getInt(ARG_PARAM2);
         }
+
     }
 
     @Override
@@ -86,19 +93,31 @@ public class CardFragments extends Fragment {
         cardList_title_input = (EditText)rootView.findViewById(R.id.edit_text);
         addButton = (Button)rootView.findViewById(R.id.add_button);
 
-        int index = MainActivity.viewPager.getCurrentItem();
-        CardList currentCardList = Storage.getInstance().loadCardLists().get(index);
+
+        if(status == CardList.ADDED){
+            Log.e("check","status =  added");
+
+        }
+        else{
+            Log.e("check","status =  empty");
+
+        }
 
 
-        if(currentCardList.getSTATUS()==CardList.EMPTY){
+        if(status==CardList.EMPTY){
+
             cardList_title_input.setVisibility(View.GONE);
             addButton.setVisibility(View.VISIBLE);
+
         }
 
-        else if(currentCardList.getSTATUS()==CardList.ADDED){
+        else if(status==CardList.ADDED){
+
             addButton.setVisibility(View.GONE);
             cardList_title_input.setVisibility(View.GONE);
+
         }
+
 
 
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -114,10 +133,26 @@ public class CardFragments extends Fragment {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    int index = MainActivity.viewPager.getCurrentItem();
+                    int index = Storage.getInstance().loadCardLists().size()-1;
                     cardList_title_input.setVisibility(View.GONE);
                     addButton.setVisibility(View.GONE);
+
                     Storage.getInstance().loadCardLists().get(index).setSTATUS(CardList.ADDED);
+
+
+                    Log.e("check", "index = " + index);
+
+
+                    int temp = Storage.getInstance().loadCardLists().get(index).getSTATUS();
+                    if(temp == CardList.ADDED){
+                        Log.e("check","status =  added");
+
+                    }
+                    else{
+                        Log.e("check","status =  empty");
+
+                    }
+
                     String newText = cardList_title_input.getText().toString();
                     Storage.getInstance().loadCardLists().get(index).setTitle(newText);
                     textView.setText("clicked");
