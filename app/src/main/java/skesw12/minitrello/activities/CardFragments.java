@@ -10,9 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import skesw12.minitrello.R;
+import skesw12.minitrello.adapters.adapter.simple.CardListAdapter;
 import skesw12.minitrello.models.CardList;
 import skesw12.minitrello.models.Storage;
 
@@ -34,16 +39,17 @@ public class CardFragments extends Fragment {
     private String title;
     private String mParam2;
     private String state;
-    private CardList cardLists;
-    private TextView textView;
     private View rootView;
-
-    int status;
-
+    private int status;
     private OnFragmentInteractionListener mListener;
-    private EditText cardList_title_input;
-    private Button addButton;
 
+    private EditText cardList_title_input;
+    private TextView textView;
+    private Button addCardListButton;
+    private Button addCardButton;
+    private ListView cardListView;
+    private List<CardList> cardLists;
+    private CardListAdapter cardListAdapter;
     public CardFragments() {
         // Required empty public constructor
     }
@@ -88,10 +94,14 @@ public class CardFragments extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         rootView =  inflater.inflate(R.layout.fragment_card_fragments, container, false);
-        textView = (TextView)rootView.findViewById(R.id.textview);
+        textView = (TextView)rootView.findViewById(R.id.textview_title);
         textView.setText(title);
         cardList_title_input = (EditText)rootView.findViewById(R.id.edit_text);
-        addButton = (Button)rootView.findViewById(R.id.add_button);
+        addCardListButton = (Button)rootView.findViewById(R.id.add_cardlist_button);
+        addCardButton = (Button)rootView.findViewById(R.id.add_card_button);
+        cardLists = new ArrayList<CardList>();
+        cardListAdapter = new CardListAdapter(getActivity(),R.layout.simple_cardlist_component,cardLists);
+        cardListView = (ListView) rootView.findViewById(R.id.simple_cardlist_list);
 
 
         if(status == CardList.ADDED){
@@ -107,25 +117,27 @@ public class CardFragments extends Fragment {
         if(status==CardList.EMPTY){
 
             cardList_title_input.setVisibility(View.GONE);
-            addButton.setVisibility(View.VISIBLE);
+            addCardListButton.setVisibility(View.VISIBLE);
+            addCardButton.setVisibility(View.GONE);
 
         }
 
         else if(status==CardList.ADDED){
 
-            addButton.setVisibility(View.GONE);
+            addCardListButton.setVisibility(View.GONE);
             cardList_title_input.setVisibility(View.GONE);
+            addCardButton.setVisibility(View.VISIBLE);
 
         }
 
 
 
-        addButton.setOnClickListener(new View.OnClickListener() {
+        addCardListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 cardList_title_input.setVisibility(View.VISIBLE);
-                addButton.setVisibility(View.GONE);
+                addCardListButton.setVisibility(View.GONE);
             }
         });
 
@@ -133,9 +145,12 @@ public class CardFragments extends Fragment {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    int index = Storage.getInstance().loadCardLists().size()-1;
+                    int index = Storage.getInstance().loadCardLists().size() - 1;
+
+
                     cardList_title_input.setVisibility(View.GONE);
-                    addButton.setVisibility(View.GONE);
+                    addCardListButton.setVisibility(View.GONE);
+                    addCardButton.setVisibility(View.VISIBLE);
 
                     Storage.getInstance().loadCardLists().get(index).setSTATUS(CardList.ADDED);
 
@@ -143,15 +158,16 @@ public class CardFragments extends Fragment {
                     Log.e("check", "index = " + index);
 
 
+                    //test
                     int temp = Storage.getInstance().loadCardLists().get(index).getSTATUS();
-                    if(temp == CardList.ADDED){
-                        Log.e("check","status =  added");
+                    if (temp == CardList.ADDED) {
+                        Log.e("check", "status =  added");
+
+                    } else {
+                        Log.e("check", "status =  empty");
 
                     }
-                    else{
-                        Log.e("check","status =  empty");
 
-                    }
 
                     String newText = cardList_title_input.getText().toString();
                     Storage.getInstance().loadCardLists().get(index).setTitle(newText);
@@ -159,15 +175,29 @@ public class CardFragments extends Fragment {
                     MainActivity.pageradapter.notifyDataSetChanged();
                     if (cardList_title_input.getText().toString().equals("")) return true;
                     textView.setText(cardList_title_input.getText().toString());
-                    Storage.getInstance().addCardList(new CardList("PAGE : " + Storage.getInstance().loadCardLists().size()));
-                    MainActivity.pageradapter.notifyDataSetChanged();
+
+                    addCardList();
+                    refresh();
+
                     return true;
                 }
                 return false;
-            }});
+            }
+        });
 
         
         return rootView;
+    }
+
+    private void addCardList() {
+        Storage.getInstance().addCardList(new CardList("PAGE : " + Storage.getInstance().loadCardLists().size()));
+    }
+
+    private void refresh(){
+        cardLists.clear();
+        for (CardList cl : Storage.getInstance().loadCardLists()) cardLists.add(cl);
+        cardListAdapter.notifyDataSetChanged();
+        MainActivity.pageradapter.notifyDataSetChanged();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
