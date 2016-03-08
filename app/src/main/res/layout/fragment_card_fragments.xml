@@ -52,6 +52,13 @@
 
         </ListView>
 
+        <EditText
+            android:id="@+id/card_title_input_editText"
+            android:hint="card name"
+            android:layout_width="match_parent"
+            android:layout_weight="0"
+            android:layout_height="wrap_content" />
+
         <Button
             android:id="@+id/add_card_button"
             android:layout_width="match_parent"

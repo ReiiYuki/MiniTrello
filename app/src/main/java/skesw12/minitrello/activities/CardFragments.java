@@ -48,6 +48,7 @@ public class CardFragments extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     private EditText cardList_title_input;
+    private EditText card_title_input;
     private TextView textView;
     private Button addCardListButton;
     private static CardList C;
@@ -113,18 +114,23 @@ public class CardFragments extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         rootView =  inflater.inflate(R.layout.fragment_card_fragments, container, false);
         textView = (TextView)rootView.findViewById(R.id.textview_title);
         textView.setText(title);
         cardList_title_input = (EditText)rootView.findViewById(R.id.edit_text);
         addCardListButton = (Button)rootView.findViewById(R.id.add_cardlist_button);
         addCardButton = (Button)rootView.findViewById(R.id.add_card_button);
+        card_title_input = (EditText)rootView.findViewById(R.id.card_title_input_editText);
+        card_title_input.setVisibility(View.GONE);
 
         int position = MainActivity.viewPager.getCurrentItem();
         cards = Storage.getInstance().loadCardLists().get(position);
         cardListView = (ListView) rootView.findViewById(R.id.simple_cardlist);
         cardAdapter = new CardAdapter(getActivity(),R.layout.simple_cardlist_component,C);
         cardListView.setAdapter(cardAdapter);
+        refresh();
+
 
 
 //        int position = MainActivity.viewPager.getCurrentItem();
@@ -175,7 +181,7 @@ public class CardFragments extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position2, long id) {
 
                 int position = MainActivity.viewPager.getCurrentItem();
-                Intent intent = new Intent(getActivity(),SimpleCardActivity.class);
+                Intent intent = new Intent(getActivity(), SimpleCardActivity.class);
                 intent.putExtra("position1", position);
                 intent.putExtra("position2", position2);
                 startActivity(intent);
@@ -211,8 +217,6 @@ public class CardFragments extends Fragment {
 
                     String newText = cardList_title_input.getText().toString();
                     Storage.getInstance().loadCardLists().get(index).setTitle(newText);
-                    textView.setText("clicked");
-                    MainActivity.pageradapter.notifyDataSetChanged();
                     if (cardList_title_input.getText().toString().equals("")) return true;
                     textView.setText(cardList_title_input.getText().toString());
 
@@ -229,22 +233,39 @@ public class CardFragments extends Fragment {
         addCardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addCard();
-                refresh();
-                Log.e("check","click");
+                card_title_input.setVisibility(View.VISIBLE);
+                addCardButton.setVisibility(View.GONE);
+                Log.e("check", "click");
 
             }
         });
+
+        card_title_input.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    String title = card_title_input.getText().toString();
+                    addCard(title);
+                    refresh();
+                    card_title_input.setText("");
+                    addCardButton.setVisibility(View.VISIBLE);
+                    card_title_input.setVisibility(View.GONE);
+                    return  true;
+                }
+                return false;
+            }
+        });
+
 
 
         return rootView;
     }
 
 
-    public void addCard(){
+    public void addCard(String title){
         int position = MainActivity.viewPager.getCurrentItem();
         Log.e("check","postion = "+position);
-        Storage.getInstance().addCard(position, new Card("test card"+count++,"test"));
+        Storage.getInstance().addCard(position, new Card(title, ""));
     }
 
     private void addCardList() {
@@ -253,12 +274,9 @@ public class CardFragments extends Fragment {
 
     private void refresh(){
 
-
-
         int position = MainActivity.viewPager.getCurrentItem();
         cards = Storage.getInstance().loadCardLists().get(position);
         cardAdapter.notifyDataSetChanged();
-
         MainActivity.pageradapter.notifyDataSetChanged();
 
     }
