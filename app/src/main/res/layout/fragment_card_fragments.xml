@@ -42,7 +42,7 @@
 
         android:id="@+id/add_card_button"
         android:text="Add card"
-        android:layout_below="@+id/simple_cardlist_list"
+        android:layout_below="@+id/simple_cardlist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

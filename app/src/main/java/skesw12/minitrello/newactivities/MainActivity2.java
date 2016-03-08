@@ -77,6 +77,7 @@ public class MainActivity2 extends AppCompatActivity {
         });
     }
 
+
     private void addCardList(){
         Storage.getInstance().addCardList(new CardList(cardList_title_input.getText().toString()));
     }

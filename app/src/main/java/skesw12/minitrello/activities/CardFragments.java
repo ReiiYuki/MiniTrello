@@ -17,7 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import skesw12.minitrello.R;
+import skesw12.minitrello.adapters.adapter.simple.CardAdapter;
 import skesw12.minitrello.adapters.adapter.simple.CardListAdapter;
+import skesw12.minitrello.models.Card;
 import skesw12.minitrello.models.CardList;
 import skesw12.minitrello.models.Storage;
 
@@ -50,6 +52,9 @@ public class CardFragments extends Fragment {
     private ListView cardListView;
     private List<CardList> cardLists;
     private CardListAdapter cardListAdapter;
+    private CardList cards;
+    private CardAdapter cardAdapter;
+
     public CardFragments() {
         // Required empty public constructor
     }
@@ -100,8 +105,12 @@ public class CardFragments extends Fragment {
         addCardListButton = (Button)rootView.findViewById(R.id.add_cardlist_button);
         addCardButton = (Button)rootView.findViewById(R.id.add_card_button);
         cardLists = new ArrayList<CardList>();
+
         cardListAdapter = new CardListAdapter(getActivity(),R.layout.simple_cardlist_component,cardLists);
-        cardListView = (ListView) rootView.findViewById(R.id.simple_cardlist_list);
+        int position = MainActivity.viewPager.getCurrentItem();
+        cards = Storage.getInstance().loadCardLists().get(position);
+        cardListView = (ListView) rootView.findViewById(R.id.simple_cardlist);
+        cardAdapter = new CardAdapter(getActivity(),R.layout.simple_cardlist_component,cards);
 
 
         if(status == CardList.ADDED){
@@ -185,8 +194,26 @@ public class CardFragments extends Fragment {
             }
         });
 
+
+        addCardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addCard();
+                refresh();
+                Log.e("check","click");
+
+            }
+        });
+
         
         return rootView;
+    }
+
+
+    public void addCard(){
+        int position = MainActivity.viewPager.getCurrentItem();
+        Log.e("check","postion = "+position);
+        Storage.getInstance().addCard(position, new Card("test card","test"));
     }
 
     private void addCardList() {
@@ -197,7 +224,13 @@ public class CardFragments extends Fragment {
         cardLists.clear();
         for (CardList cl : Storage.getInstance().loadCardLists()) cardLists.add(cl);
         cardListAdapter.notifyDataSetChanged();
+
+
+        int position = MainActivity.viewPager.getCurrentItem();
+        cards = Storage.getInstance().loadCardLists().get(position);
+        cardAdapter.notifyDataSetChanged();
         MainActivity.pageradapter.notifyDataSetChanged();
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event

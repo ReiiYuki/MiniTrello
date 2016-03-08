@@ -51,6 +51,7 @@ public class SimpleCardListActivity extends AppCompatActivity {
         cardAdapter = new CardAdapter(this,R.layout.simple_cardlist_component,cards);
         card_input_panel = (LinearLayout) findViewById(R.id.simple_add_card_panel);
     }
+
     public void setCardAdapter(){
         cardListView.setAdapter(cardAdapter);
     }
