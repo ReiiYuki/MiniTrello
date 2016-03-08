@@ -1,5 +1,6 @@
 package skesw12.minitrello.activities;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,13 +9,11 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import skesw12.minitrello.R;
 import skesw12.minitrello.adapters.adapter.simple.CardAdapter;
@@ -22,6 +21,7 @@ import skesw12.minitrello.adapters.adapter.simple.CardListAdapter;
 import skesw12.minitrello.models.Card;
 import skesw12.minitrello.models.CardList;
 import skesw12.minitrello.models.Storage;
+import skesw12.minitrello.newactivities.SimpleCardActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,6 +36,8 @@ public class CardFragments extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String POSITION = "position";
+    private static int count = 0;
 
     // TODO: Rename and change types of parameters
     private String title;
@@ -48,12 +50,13 @@ public class CardFragments extends Fragment {
     private EditText cardList_title_input;
     private TextView textView;
     private Button addCardListButton;
+    private static CardList C;
     private Button addCardButton;
     private ListView cardListView;
-    private List<CardList> cardLists;
     private CardListAdapter cardListAdapter;
     private CardList cards;
     private CardAdapter cardAdapter;
+    private int position;
 
     public CardFragments() {
         // Required empty public constructor
@@ -68,12 +71,15 @@ public class CardFragments extends Fragment {
      * @return A new instance of fragment CardFragments.
      */
     // TODO: Rename and change types and number of parameters
-    public static CardFragments newInstance(String param1, int param2) {
+    public static CardFragments newInstance(String param1, CardList param2) {
         CardFragments fragment = new CardFragments();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
 //        args.putString(ARG_PARAM2, param2);
-        args.putInt(ARG_PARAM2,param2);
+        args.putInt(ARG_PARAM2,param2.getSTATUS());
+        C = param2;
+//        args.puInt(POSITION,param2.get)
+
         fragment.setArguments(args);
 
         Log.e("check","Fragement is created");
@@ -84,6 +90,8 @@ public class CardFragments extends Fragment {
         title = s;
     }
 
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,6 +100,13 @@ public class CardFragments extends Fragment {
             status = getArguments().getInt(ARG_PARAM2);
         }
 
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        refresh();
     }
 
     @Override
@@ -104,14 +119,20 @@ public class CardFragments extends Fragment {
         cardList_title_input = (EditText)rootView.findViewById(R.id.edit_text);
         addCardListButton = (Button)rootView.findViewById(R.id.add_cardlist_button);
         addCardButton = (Button)rootView.findViewById(R.id.add_card_button);
-        cardLists = new ArrayList<CardList>();
 
-        cardListAdapter = new CardListAdapter(getActivity(),R.layout.simple_cardlist_component,cardLists);
         int position = MainActivity.viewPager.getCurrentItem();
         cards = Storage.getInstance().loadCardLists().get(position);
         cardListView = (ListView) rootView.findViewById(R.id.simple_cardlist);
-        cardAdapter = new CardAdapter(getActivity(),R.layout.simple_cardlist_component,cards);
+        cardAdapter = new CardAdapter(getActivity(),R.layout.simple_cardlist_component,C);
+        cardListView.setAdapter(cardAdapter);
 
+
+//        int position = MainActivity.viewPager.getCurrentItem();
+//        cards = Storage.getInstance().loadCardLists().get(position);
+//        cardListView = (ListView) rootView.findViewById(R.id.simple_card_list);
+//        cardAdapter = new CardAdapter(getActivity(),R.layout.simple_cardlist_component,cards);
+//
+//        cardListView.setAdapter(cardListAdapter);
 
         if(status == CardList.ADDED){
             Log.e("check","status =  added");
@@ -140,13 +161,24 @@ public class CardFragments extends Fragment {
         }
 
 
-
         addCardListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 cardList_title_input.setVisibility(View.VISIBLE);
                 addCardListButton.setVisibility(View.GONE);
+            }
+        });
+
+        cardListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position2, long id) {
+
+                int position = MainActivity.viewPager.getCurrentItem();
+                Intent intent = new Intent(getActivity(),SimpleCardActivity.class);
+                intent.putExtra("position1", position);
+                intent.putExtra("position2", position2);
+                startActivity(intent);
             }
         });
 
@@ -162,7 +194,6 @@ public class CardFragments extends Fragment {
                     addCardButton.setVisibility(View.VISIBLE);
 
                     Storage.getInstance().loadCardLists().get(index).setSTATUS(CardList.ADDED);
-
 
                     Log.e("check", "index = " + index);
 
@@ -205,7 +236,7 @@ public class CardFragments extends Fragment {
             }
         });
 
-        
+
         return rootView;
     }
 
@@ -213,7 +244,7 @@ public class CardFragments extends Fragment {
     public void addCard(){
         int position = MainActivity.viewPager.getCurrentItem();
         Log.e("check","postion = "+position);
-        Storage.getInstance().addCard(position, new Card("test card","test"));
+        Storage.getInstance().addCard(position, new Card("test card"+count++,"test"));
     }
 
     private void addCardList() {
@@ -221,14 +252,13 @@ public class CardFragments extends Fragment {
     }
 
     private void refresh(){
-        cardLists.clear();
-        for (CardList cl : Storage.getInstance().loadCardLists()) cardLists.add(cl);
-        cardListAdapter.notifyDataSetChanged();
+
 
 
         int position = MainActivity.viewPager.getCurrentItem();
         cards = Storage.getInstance().loadCardLists().get(position);
         cardAdapter.notifyDataSetChanged();
+
         MainActivity.pageradapter.notifyDataSetChanged();
 
     }

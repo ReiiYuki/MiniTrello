@@ -35,6 +35,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initComponent();
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+    }
+
     private void initComponent(){
 
         if(Storage.getInstance().loadCardLists().size()==0) {

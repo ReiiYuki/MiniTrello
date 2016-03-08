@@ -1,49 +1,69 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="skesw12.minitrello.activities.CardFragments">
 
     <!-- TODO: Update blank fragment layout -->
 
     <Button
         android:id="@+id/add_cardlist_button"
-        android:text="add something "
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="add something "
 
         />
 
     <EditText
         android:id="@+id/edit_text"
-        android:hint="type here"
-        android:textAlignment="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:hint="type here"
+        android:textAlignment="center" />
 
     <TextView
         android:id="@+id/textview_title"
-        android:textSize="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/hello_blank_fragment"
+        android:paddingBottom="5dp"
         android:textAlignment="center"
+        android:textSize="30dp" />
+
+
+
+    <LinearLayout
+        android:id="@+id/layout_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/hello_blank_fragment" />
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/simple_cardlist_list"
-        android:layout_below="@+id/textview_title"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="10.0sp"></ListView>
+        android:orientation="vertical">
 
-    <Button
+        <ListView
+            android:id="@+id/simple_cardlist"
+            android:layout_width="match_parent"
+            android:layout_height= "0dip"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="10.0sp"
+            android:layout_weight="1"
+            android:paddingBottom="5dp"
+            android:clipToPadding="false">
 
-        android:id="@+id/add_card_button"
-        android:text="Add card"
-        android:layout_below="@+id/simple_cardlist"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        </ListView>
+
+        <Button
+            android:id="@+id/add_card_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:text="Add card"
+            />
+
+
+    </LinearLayout>
+
+
+
 
 </LinearLayout>

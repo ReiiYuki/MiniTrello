@@ -29,7 +29,7 @@ public class PagerAdapter  extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         return CardFragments.newInstance(list.get(position).getTitle(),
-                Storage.getInstance().loadCardLists().get(position).getSTATUS());
+                Storage.getInstance().loadCardLists().get(position));
     }
 
 //    public Fragment getActiveFragment(ViewPager container, int position) {

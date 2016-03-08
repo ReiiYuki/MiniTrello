@@ -66,14 +66,16 @@
             android:hint="Card Description"
             android:id="@+id/card_description_input"
             />
-    </LinearLayout>
 
-    <ListView
+    </LinearLayout>
+    <Button
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/cardlist_list"
-        android:textAlignment="center"
-        android:layout_gravity="center"
-        ></ListView>
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/simple_delete_cardlist_button"
+        android:text="Delete Card List"/>
+
+
+
 
 </LinearLayout>

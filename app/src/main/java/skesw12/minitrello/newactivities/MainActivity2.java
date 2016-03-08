@@ -1,9 +1,8 @@
 package skesw12.minitrello.newactivities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
+import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -79,7 +78,9 @@ public class MainActivity2 extends AppCompatActivity {
 
 
     private void addCardList(){
-        Storage.getInstance().addCardList(new CardList(cardList_title_input.getText().toString()));
+        CardList temp = new CardList(cardList_title_input.getText().toString());
+        temp.setSTATUS(CardList.ADDED);
+        Storage.getInstance().addCardList(temp);
     }
 
     private void refresh(){
