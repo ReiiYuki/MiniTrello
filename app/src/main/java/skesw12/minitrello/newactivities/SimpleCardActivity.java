@@ -19,7 +19,7 @@ public class SimpleCardActivity extends AppCompatActivity {
     private int position2;
     private TextView cardName,cardDescription,createTime;
     private EditText editCardName,editCardDescription;
-    private Button editButton,saveButton;
+    private Button editButton,saveButton,removeCardButton;
     private LinearLayout showLayout,editLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +36,7 @@ public class SimpleCardActivity extends AppCompatActivity {
         card = Storage.getInstance().loadCardLists().get(position1).get(position2);
     }
     private void initComponent(){
+        removeCardButton = (Button) findViewById(R.id.simple_remove_card_button);
         createTime = (TextView) findViewById(R.id.simple_card_createtime);
         createTime.setText("Created Date : "+card.getReadableCreatedTime());
         cardName = (TextView) findViewById(R.id.simple_card_name);
@@ -48,6 +49,13 @@ public class SimpleCardActivity extends AppCompatActivity {
         editLayout = (LinearLayout)findViewById(R.id.card_edit_view);
     }
     private void addAllListener(){
+        removeCardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Storage.getInstance().removeCard(position1,card);
+                finish();
+            }
+        });
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

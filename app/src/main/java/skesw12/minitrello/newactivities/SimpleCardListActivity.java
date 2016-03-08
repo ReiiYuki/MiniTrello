@@ -22,7 +22,7 @@ public class SimpleCardListActivity extends AppCompatActivity {
     private CardList cards;
     private EditText card_name_input,card_description_input;
     private LinearLayout card_input_panel;
-    private Button addCardButton;
+    private Button addCardButton,removeCardListButton;
     private ListView cardListView;
     private CardAdapter cardAdapter;
     private int position;
@@ -50,11 +50,19 @@ public class SimpleCardListActivity extends AppCompatActivity {
         cardListView = (ListView) findViewById(R.id.simple_card_list);
         cardAdapter = new CardAdapter(this,R.layout.simple_cardlist_component,cards);
         card_input_panel = (LinearLayout) findViewById(R.id.simple_add_card_panel);
+        removeCardListButton = (Button) findViewById(R.id.simple_remove_cardlist_button);
     }
     public void setCardAdapter(){
         cardListView.setAdapter(cardAdapter);
     }
     public void setAllListener(){
+        removeCardListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Storage.getInstance().removeCardList(cards);
+                finish();
+            }
+        });
         cardListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position2, long id) {

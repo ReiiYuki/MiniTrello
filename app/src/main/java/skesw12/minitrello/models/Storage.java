@@ -26,6 +26,7 @@ public class Storage implements Serializable{
     public void removeCardList(CardList cardList){
         cardLists.remove(cardList);
     }
+    public void removeCard(int position,Card card){ cardLists.get(position).remove(card);}
     public void addCard(int position,Card card){
         cardLists.get(position).add(card);
     }
