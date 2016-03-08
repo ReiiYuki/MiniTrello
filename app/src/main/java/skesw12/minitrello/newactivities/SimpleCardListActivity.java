@@ -56,6 +56,7 @@ public class SimpleCardListActivity extends AppCompatActivity {
         cardListView.setAdapter(cardAdapter);
     }
     public void setAllListener(){
+        getSupportActionBar().setTitle(cards.getTitle());
         removeCardListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

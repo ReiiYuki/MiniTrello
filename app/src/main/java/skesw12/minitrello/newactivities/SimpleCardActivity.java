@@ -49,6 +49,7 @@ public class SimpleCardActivity extends AppCompatActivity {
         editLayout = (LinearLayout)findViewById(R.id.card_edit_view);
     }
     private void addAllListener(){
+        getSupportActionBar().setTitle(card.getName());
         removeCardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
