@@ -29,6 +29,17 @@ public class Card implements Serializable{
         return name;
     }
 
+    public void addComment(Comment c){
+        commentList.add(c);
+    }
+
+    public void removeComment(Comment c){
+        commentList.remove(c);
+    }
+
+    public List<Comment> getCommentList(){
+        return commentList;
+    }
 
     public void setName(String name) {
         this.name = name;
