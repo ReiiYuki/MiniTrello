@@ -2,7 +2,9 @@ package skesw12.minitrello.models;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by YukiReii on 29/2/2559.
@@ -11,10 +13,12 @@ public class Card implements Serializable{
     private String name;
     private String description;
     private long createTime;
+    private List<Comment> commentList;
     public Card(String name,String description){
         this.name = name;
         this.description = description;
         createTime = System.currentTimeMillis();
+        commentList = new ArrayList<Comment>();
     }
 
     public String getDescription() {
@@ -25,9 +29,6 @@ public class Card implements Serializable{
         return name;
     }
 
-    public long getCreateTime() {
-        return createTime;
-    }
 
     public void setName(String name) {
         this.name = name;
