@@ -1,5 +1,7 @@
 package skesw12.minitrello.models;
 
+import android.graphics.Color;
+
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,11 +16,21 @@ public class Card implements Serializable{
     private String description;
     private long createTime;
     private List<Comment> commentList;
+    private int color;
     public Card(String name,String description){
         this.name = name;
         this.description = description;
         createTime = System.currentTimeMillis();
         commentList = new ArrayList<Comment>();
+        color = Color.BLUE;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
+    }
+
+    public int getColor() {
+        return color;
     }
 
     public String getDescription() {

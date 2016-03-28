@@ -3,6 +3,7 @@ package skesw12.minitrello.newactivities;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
@@ -17,6 +18,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.pes.androidmaterialcolorpickerdialog.ColorPicker;
 
 import skesw12.minitrello.R;
 import skesw12.minitrello.adapters.adapter.simple.CardAdapter;
@@ -127,6 +130,8 @@ public class SimpleCardListActivity extends AppCompatActivity {
     public void refresh(){
         cards = Storage.getInstance().loadCardLists().get(position);
         getSupportActionBar().setTitle(cards.getTitle());
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(cards.getColor()));
+        Storage.getInstance().save(this);
         cardAdapter.notifyDataSetChanged();
     }
 
@@ -146,6 +151,9 @@ public class SimpleCardListActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.action_color:
+                showColorPicker();
+                return true;
             case R.id.action_settings:
                 // User chose the "Settings" item, show the app settings UI...
                 showButton();
@@ -162,7 +170,7 @@ public class SimpleCardListActivity extends AppCompatActivity {
     private void showButton(){
         final AlertDialog dialog = new AlertDialog.Builder(this).create();
         final EditText input = new EditText(this);
-        
+
         dialog.setView(input);
         input.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -178,5 +186,21 @@ public class SimpleCardListActivity extends AppCompatActivity {
             }
         });
         dialog.show();
+    }
+    private void showColorPicker(){
+        final ColorPicker cp = new ColorPicker(this, 0, 0, 0);
+        cp.show();
+        /* On Click listener for the dialog, when the user select the color */
+        Button okColor = (Button)cp.findViewById(R.id.okColorButton);
+
+        okColor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Storage.getInstance().loadCardLists().get(position).setColor(cp.getColor());
+                refresh();
+                cp.dismiss();
+            }
+        });
     }
 }

@@ -10,6 +10,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import skesw12.minitrello.R;
+import skesw12.minitrello.models.Storage;
 import skesw12.minitrello.newactivities.MainActivity2;
 
 /**
@@ -178,5 +179,11 @@ public class HomeActivity extends AppCompatActivity {
     private void delayedHide(int delayMillis) {
         mHideHandler.removeCallbacks(mHideRunnable);
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Storage.getInstance().load(this);
     }
 }

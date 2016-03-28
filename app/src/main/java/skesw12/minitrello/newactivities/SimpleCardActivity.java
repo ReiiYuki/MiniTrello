@@ -2,9 +2,13 @@ package skesw12.minitrello.newactivities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -12,6 +16,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.pes.androidmaterialcolorpickerdialog.ColorPicker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,8 +101,7 @@ public class SimpleCardActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!editCardName.getText().toString().equals(""))
-                {
+                if (!editCardName.getText().toString().equals("")) {
                     editLayout.setVisibility(View.GONE);
                     showLayout.setVisibility(View.VISIBLE);
                     edit();
@@ -185,12 +190,14 @@ public class SimpleCardActivity extends AppCompatActivity {
     }
     private void refresh(){
         card = Storage.getInstance().loadCardLists().get(position1).get(position2);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(card.getColor()));
         comments = Storage.getInstance().loadCardLists().get(position1).get(position2).getCommentList();
         adapter.notifyDataSetChanged();
         cardName.setText(card.getName());
         cardDescription.setText(card.getDescription());
         editCardDescription.setText(card.getDescription());
         editCardName.setText(card.getName());
+        Storage.getInstance().save(this);
     }
     @Override
     protected void onStart() {
@@ -202,11 +209,50 @@ public class SimpleCardActivity extends AppCompatActivity {
         dialog.setButton(AlertDialog.BUTTON_NEGATIVE, "DELETE COMMENT", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Storage.getInstance().removeComment(position1,position2,comment);
+                Storage.getInstance().removeComment(position1, position2, comment);
                 refresh();
                 dialog.dismiss();
             }
         });
         dialog.show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.cardmenu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_color:
+                showColorPicker();
+                return true;
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
+
+
+    private void showColorPicker(){
+        final ColorPicker cp = new ColorPicker(this, 0, 0, 0);
+        cp.show();
+        /* On Click listener for the dialog, when the user select the color */
+        Button okColor = (Button)cp.findViewById(R.id.okColorButton);
+
+        okColor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Storage.getInstance().loadCardLists().get(position1).get(position2).setColor(cp.getColor());
+                refresh();
+                cp.dismiss();
+            }
+        });
     }
 }

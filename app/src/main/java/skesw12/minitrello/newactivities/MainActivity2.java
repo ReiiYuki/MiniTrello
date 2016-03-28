@@ -86,6 +86,7 @@ public class MainActivity2 extends AppCompatActivity {
     private void refresh(){
         cardLists.clear();
         for (CardList cl : Storage.getInstance().loadCardLists()) cardLists.add(cl);
+        Storage.getInstance().save(this);
         cardListAdapter.notifyDataSetChanged();
     }
     @Override
