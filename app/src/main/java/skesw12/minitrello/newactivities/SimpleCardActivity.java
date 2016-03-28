@@ -1,9 +1,12 @@
 package skesw12.minitrello.newactivities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -65,6 +68,12 @@ public class SimpleCardActivity extends AppCompatActivity {
         comments = new ArrayList<Comment>();
         for (Comment c :Storage.getInstance().loadCardLists().get(position1).get(position2).getCommentList() ) comments.add(c);
         adapter = new CommentAdapter(this,R.layout.comment_component,Storage.getInstance().loadCardLists().get(position1).get(position2).getCommentList());
+        commentList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                showButton(Storage.getInstance().loadCardLists().get(position1).get(position2).getCommentList().get(position));
+            }
+        });
     }
     private void addAllListener(){
         commentList.setAdapter(adapter);
@@ -168,7 +177,7 @@ public class SimpleCardActivity extends AppCompatActivity {
             Storage.getInstance().addComment(position1,position2,new Comment(commentBox.getText().toString()));
             return;
         }
-        Storage.getInstance().addComment(position1,position2,new Comment(commentBox.getText().toString(),authorBox.getText().toString()));
+        Storage.getInstance().addComment(position1, position2, new Comment(commentBox.getText().toString(), authorBox.getText().toString()));
     }
     private void refresh(){
         card = Storage.getInstance().loadCardLists().get(position1).get(position2);
@@ -183,5 +192,17 @@ public class SimpleCardActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         refresh();
+    }
+    private void showButton(final Comment comment){
+        AlertDialog dialog = new AlertDialog.Builder(this).create();
+        dialog.setButton(AlertDialog.BUTTON_NEGATIVE, "DELETE COMMENT", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Storage.getInstance().removeComment(position1,position2,comment);
+                refresh();
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 }
