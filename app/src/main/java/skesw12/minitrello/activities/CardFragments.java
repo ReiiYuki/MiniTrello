@@ -276,6 +276,7 @@ public class CardFragments extends Fragment {
 
         int position = MainActivity.viewPager.getCurrentItem();
         cards = Storage.getInstance().loadCardLists().get(position);
+        Storage.getInstance().save(this.getContext());
         cardAdapter.notifyDataSetChanged();
         MainActivity.pageradapter.notifyDataSetChanged();
 
