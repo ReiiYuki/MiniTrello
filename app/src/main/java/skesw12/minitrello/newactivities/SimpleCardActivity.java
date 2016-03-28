@@ -10,7 +10,11 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import skesw12.minitrello.R;
+import skesw12.minitrello.adapters.adapter.simple.CommentAdapter;
 import skesw12.minitrello.models.Card;
 import skesw12.minitrello.models.Comment;
 import skesw12.minitrello.models.Storage;
@@ -22,8 +26,10 @@ public class SimpleCardActivity extends AppCompatActivity {
     private TextView cardName,cardDescription,createTime;
     private EditText editCardName,editCardDescription,commentBox,authorBox;
     private Button editButton,saveButton,removeCardButton,addCommentButton;
-    private LinearLayout showLayout,editLayout,commentB,commentP;
+    private View showLayout,editLayout,commentB,commentP;
     private ListView commentList;
+    private CommentAdapter adapter;
+    private List<Comment> comments;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,13 +57,17 @@ public class SimpleCardActivity extends AppCompatActivity {
         showLayout = (LinearLayout)findViewById(R.id.simple_card_view_detail);
         editLayout = (LinearLayout)findViewById(R.id.card_edit_view);
         addCommentButton = (Button)findViewById(R.id.add_comment);
-        commentB = (LinearLayout) findViewById(R.id.add_comment_p);
-        commentP = (LinearLayout) findViewById(R.id.comment_p);
+        commentB = (View) findViewById(R.id.add_comment_p);
+        commentP = (View) findViewById(R.id.comment_p);
         commentList = (ListView)findViewById(R.id.comment_list);
         commentBox = (EditText) findViewById(R.id.comment);
         authorBox = (EditText) findViewById(R.id.author);
+        comments = new ArrayList<Comment>();
+        for (Comment c :Storage.getInstance().loadCardLists().get(position1).get(position2).getCommentList() ) comments.add(c);
+        adapter = new CommentAdapter(this,R.layout.comment_component,Storage.getInstance().loadCardLists().get(position1).get(position2).getCommentList());
     }
     private void addAllListener(){
+        commentList.setAdapter(adapter);
         getSupportActionBar().setTitle(card.getName());
         removeCardButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,6 +130,20 @@ public class SimpleCardActivity extends AppCompatActivity {
                 commentP.setVisibility(View.VISIBLE);
             }
         });
+        authorBox.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    commentB.setVisibility(View.VISIBLE);
+                    commentP.setVisibility(View.GONE);
+                    if (commentBox.getText().toString().equals("")) return true;
+                    addComment();
+                    refresh();
+                    return true;
+                }
+                return false;
+            }
+        });
         commentBox.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -148,6 +172,8 @@ public class SimpleCardActivity extends AppCompatActivity {
     }
     private void refresh(){
         card = Storage.getInstance().loadCardLists().get(position1).get(position2);
+        comments = Storage.getInstance().loadCardLists().get(position1).get(position2).getCommentList();
+        adapter.notifyDataSetChanged();
         cardName.setText(card.getName());
         cardDescription.setText(card.getDescription());
         editCardDescription.setText(card.getDescription());

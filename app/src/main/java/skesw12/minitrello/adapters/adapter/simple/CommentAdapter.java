@@ -19,17 +19,18 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
     public CommentAdapter(Context context, int resource, List<Comment> objects) {
         super(context, resource, objects);
     }
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View v = convertView;
         if(v == null) {
             LayoutInflater vi = LayoutInflater.from(getContext());
-            v = vi.inflate(R.layout.simple_cardlist_component, null);
+            v = vi.inflate(R.layout.comment_component, null);
         }
         Comment comment = getItem(position);
-        TextView title = (TextView)v.findViewById(R.id.simple_cardlist_title);
-        title.setText(cardList.getName());
+        TextView text = (TextView)v.findViewById(R.id.comment_text);
+        text.setText(comment.getComment());
+        TextView author = (TextView) v.findViewById(R.id.author_comment);
+        author.setText(comment.getAuthor());
         return v;
     }
 }

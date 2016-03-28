@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,6 +9,12 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="skesw12.minitrello.newactivities.SimpleCardActivity"
     android:orientation="vertical">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:id="@+id/info">
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,7 +28,7 @@
         android:layout_weight="0">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/simple_card_view_detail"
             android:orientation="vertical"
             >
@@ -33,7 +39,7 @@
                 >
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical">
                     <TextView
                         android:layout_width="match_parent"
@@ -111,58 +117,62 @@
         android:layout_height="wrap_content"
         android:text="Comment"
         android:textSize="30dp"
-        android:layout_weight="4"/>
+        android:layout_weight="1"
+        />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/add_comment_p"
         android:orientation="vertical"
-        android:layout_weight="3">
+        android:layout_weight="5"
+
+        >
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ADD Comment"
+            android:id="@+id/add_comment"
+            />
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:id="@+id/comment_p"
+        android:layout_weight="5"
+        >
+
+        <EditText
+            android:id="@+id/comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="INPUT YOUR COMMENT HERE..."
+
+            />
+        <EditText
+            android:id="@+id/author"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Who ?"
+            android:layout_below="@id/comment"
+            />
+    </RelativeLayout>
+</LinearLayout>
 
         <ListView
+            android:layout_below="@id/info"
             android:layout_width="match_parent"
-            android:layout_height="0dip"
+            android:layout_height="wrap_content"
             android:id="@+id/comment_list"
             android:divider="@android:color/transparent"
             android:dividerHeight="10.0sp"
             android:layout_weight="6"
             android:paddingBottom="5dp"
             android:clipToPadding="false"></ListView>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/add_comment_p"
-            android:orientation="vertical"
-            android:layout_weight="5"
-            android:layout_alignParentBottom="true"
-            >
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="ADD Comment"
-                android:id="@+id/add_comment"
-                />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:visibility="gone"
-            android:id="@+id/comment_p"
-            android:layout_weight="5"
-            android:layout_alignParentBottom="true">
-            <EditText
-                android:id="@+id/comment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="INPUT YOUR COMMENT HERE..."/>
-            <EditText
-                android:id="@+id/author"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Who ?"/>
-        </LinearLayout>
-
-    </LinearLayout>
 
 
-</LinearLayout>
+
+
+</RelativeLayout>
