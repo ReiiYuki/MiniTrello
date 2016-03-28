@@ -16,10 +16,10 @@
         android:textSize="10dp"/>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dip"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:id="@+id/simple_card_panel"
-        android:layout_weight="1">
+        android:layout_weight="0">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -60,11 +60,11 @@
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:id="@+id/card_edit_view"
             android:visibility="gone"
-
+            android:layout_weight="0"
             >
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
@@ -95,16 +95,74 @@
                 android:layout_height="wrap_content"
                 android:text="SAVE"
                 android:id="@+id/simple_save_edit_card_button"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/simple_remove_card_button"
+                android:layout_weight="0"
+                android:text="Delete Card"
+                android:textColor="#FFFFFF"
+                android:background="#FF0000"
+                />
         </LinearLayout>
     </LinearLayout>
-
-    <Button
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/simple_remove_card_button"
-        android:layout_weight="0"
-        android:text="Delete Card"
-        android:textColor="#FFFFFF"
-        android:background="#FF0000"
-        />
+        android:text="Comment"
+        android:textSize="30dp"
+        android:layout_weight="4"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="3">
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:id="@+id/comment_list"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="10.0sp"
+            android:layout_weight="6"
+            android:paddingBottom="5dp"
+            android:clipToPadding="false"></ListView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/add_comment_p"
+            android:orientation="vertical"
+            android:layout_weight="5"
+            android:layout_alignParentBottom="true"
+            >
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ADD Comment"
+                android:id="@+id/add_comment"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:id="@+id/comment_p"
+            android:layout_weight="5"
+            android:layout_alignParentBottom="true">
+            <EditText
+                android:id="@+id/comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="INPUT YOUR COMMENT HERE..."/>
+            <EditText
+                android:id="@+id/author"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Who ?"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
 </LinearLayout>

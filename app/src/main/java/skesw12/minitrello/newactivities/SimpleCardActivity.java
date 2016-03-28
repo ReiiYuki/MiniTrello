@@ -7,10 +7,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import skesw12.minitrello.R;
 import skesw12.minitrello.models.Card;
+import skesw12.minitrello.models.Comment;
 import skesw12.minitrello.models.Storage;
 
 public class SimpleCardActivity extends AppCompatActivity {
@@ -18,9 +20,10 @@ public class SimpleCardActivity extends AppCompatActivity {
     private int position1;
     private int position2;
     private TextView cardName,cardDescription,createTime;
-    private EditText editCardName,editCardDescription;
-    private Button editButton,saveButton,removeCardButton;
-    private LinearLayout showLayout,editLayout;
+    private EditText editCardName,editCardDescription,commentBox,authorBox;
+    private Button editButton,saveButton,removeCardButton,addCommentButton;
+    private LinearLayout showLayout,editLayout,commentB,commentP;
+    private ListView commentList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,13 +50,19 @@ public class SimpleCardActivity extends AppCompatActivity {
         editCardDescription = (EditText) findViewById(R.id.simple_edit_card_description);
         showLayout = (LinearLayout)findViewById(R.id.simple_card_view_detail);
         editLayout = (LinearLayout)findViewById(R.id.card_edit_view);
+        addCommentButton = (Button)findViewById(R.id.add_comment);
+        commentB = (LinearLayout) findViewById(R.id.add_comment_p);
+        commentP = (LinearLayout) findViewById(R.id.comment_p);
+        commentList = (ListView)findViewById(R.id.comment_list);
+        commentBox = (EditText) findViewById(R.id.comment);
+        authorBox = (EditText) findViewById(R.id.author);
     }
     private void addAllListener(){
         getSupportActionBar().setTitle(card.getName());
         removeCardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Storage.getInstance().removeCard(position1,card);
+                Storage.getInstance().removeCard(position1, card);
                 finish();
             }
         });
@@ -104,10 +113,38 @@ public class SimpleCardActivity extends AppCompatActivity {
                 return false;
             }
         });
+        addCommentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                commentB.setVisibility(View.GONE);
+                commentP.setVisibility(View.VISIBLE);
+            }
+        });
+        commentBox.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    commentB.setVisibility(View.VISIBLE);
+                    commentP.setVisibility(View.GONE);
+                    if (commentBox.getText().toString().equals("")) return true;
+                    addComment();
+                    refresh();
+                    return true;
+                }
+                return false;
+            }
+        });
     }
     private void edit(){
         Storage.getInstance().loadCardLists().get(position1).get(position2).setName(editCardName.getText().toString());
         Storage.getInstance().loadCardLists().get(position1).get(position2).setDescription(editCardDescription.getText().toString());
+    }
+    private void addComment(){
+        if (authorBox.getText().toString().equals("")) {
+            Storage.getInstance().addComment(position1,position2,new Comment(commentBox.getText().toString()));
+            return;
+        }
+        Storage.getInstance().addComment(position1,position2,new Comment(commentBox.getText().toString(),authorBox.getText().toString()));
     }
     private void refresh(){
         card = Storage.getInstance().loadCardLists().get(position1).get(position2);

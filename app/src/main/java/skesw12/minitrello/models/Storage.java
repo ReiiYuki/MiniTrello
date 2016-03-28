@@ -30,4 +30,6 @@ public class Storage implements Serializable{
     public void addCard(int position,Card card){
         cardLists.get(position).add(card);
     }
+    public void addComment(int position,int position2,Comment comment) {cardLists.get(position).get(position2).addComment(comment);}
+    public void removeComment(int position,int position2,Comment comment) { cardLists.get(position).get(position2).removeComment(comment);}
 }
