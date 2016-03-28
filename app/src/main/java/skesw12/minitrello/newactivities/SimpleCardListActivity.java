@@ -1,9 +1,15 @@
 package skesw12.minitrello.newactivities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -16,6 +22,7 @@ import skesw12.minitrello.R;
 import skesw12.minitrello.adapters.adapter.simple.CardAdapter;
 import skesw12.minitrello.models.Card;
 import skesw12.minitrello.models.CardList;
+import skesw12.minitrello.models.Comment;
 import skesw12.minitrello.models.Storage;
 
 public class SimpleCardListActivity extends AppCompatActivity {
@@ -119,6 +126,7 @@ public class SimpleCardListActivity extends AppCompatActivity {
     }
     public void refresh(){
         cards = Storage.getInstance().loadCardLists().get(position);
+        getSupportActionBar().setTitle(cards.getTitle());
         cardAdapter.notifyDataSetChanged();
     }
 
@@ -126,5 +134,49 @@ public class SimpleCardListActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         refresh();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.editmenu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                // User chose the "Settings" item, show the app settings UI...
+                showButton();
+                return true;
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
+
+    private void showButton(){
+        final AlertDialog dialog = new AlertDialog.Builder(this).create();
+        final EditText input = new EditText(this);
+        
+        dialog.setView(input);
+        input.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    Storage.getInstance().loadCardLists().get(position).setTitle(input.getText().toString());
+                    input.setText("");
+                    refresh();
+                    dialog.dismiss();
+                    return true;
+                }
+                return false;
+            }
+        });
+        dialog.show();
     }
 }

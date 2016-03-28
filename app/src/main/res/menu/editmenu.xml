@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- Settings, should always be in the overflow -->
+    <item android:id="@+id/action_settings"
+        android:title="Edit Card List Name"
+        android:icon="@drawable/ic_format_align_justify_white_24dp"
+        app:showAsAction="never"/>
+
+</menu>

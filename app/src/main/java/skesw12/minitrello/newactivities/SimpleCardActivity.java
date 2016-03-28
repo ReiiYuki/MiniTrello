@@ -148,6 +148,8 @@ public class SimpleCardActivity extends AppCompatActivity {
                     if (commentBox.getText().toString().equals("")) return true;
                     addComment();
                     refresh();
+                    commentBox.setText("");
+                    authorBox.setText("");
                     return true;
                 }
                 return false;
@@ -162,6 +164,8 @@ public class SimpleCardActivity extends AppCompatActivity {
                     if (commentBox.getText().toString().equals("")) return true;
                     addComment();
                     refresh();
+                    commentBox.setText("");
+                    authorBox.setText("");
                     return true;
                 }
                 return false;
