@@ -131,8 +131,6 @@ public class CardFragments extends Fragment {
         cardListView.setAdapter(cardAdapter);
         refresh();
 
-
-
 //        int position = MainActivity.viewPager.getCurrentItem();
 //        cards = Storage.getInstance().loadCardLists().get(position);
 //        cardListView = (ListView) rootView.findViewById(R.id.simple_card_list);

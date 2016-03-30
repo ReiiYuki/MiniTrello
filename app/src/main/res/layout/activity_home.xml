@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0099cc"
+    android:background="#49e3da"
     tools:context="skesw12.minitrello.activities.HomeActivity">
 
     <!-- The primary full-screen view. This can be replaced with whatever view
@@ -43,7 +43,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="SIMPLE MODE" />
+                android:text="VERTICAL VIEW" />
 
         </LinearLayout>
         <LinearLayout
@@ -61,7 +61,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="ADVANCE MODE\nBUGGED" />
+                android:text="HORIZONTAL VIEW" />
 
         </LinearLayout>
     </LinearLayout>
