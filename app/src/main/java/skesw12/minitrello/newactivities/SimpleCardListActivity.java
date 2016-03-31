@@ -1,12 +1,10 @@
 package skesw12.minitrello.newactivities;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.InputType;
+import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,10 +20,10 @@ import android.widget.TextView;
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker;
 
 import skesw12.minitrello.R;
+import skesw12.minitrello.activities.MainActivity;
 import skesw12.minitrello.adapters.adapter.simple.CardAdapter;
 import skesw12.minitrello.models.Card;
 import skesw12.minitrello.models.CardList;
-import skesw12.minitrello.models.Comment;
 import skesw12.minitrello.models.Storage;
 
 public class SimpleCardListActivity extends AppCompatActivity {
@@ -72,6 +70,7 @@ public class SimpleCardListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Storage.getInstance().removeCardList(cards);
+                MainActivity.pageradapter.notifyDataSetChanged();
                 finish();
             }
         });

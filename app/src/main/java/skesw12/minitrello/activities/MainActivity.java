@@ -1,10 +1,12 @@
 package skesw12.minitrello.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
@@ -15,6 +17,7 @@ import skesw12.minitrello.R;
 import skesw12.minitrello.adapters.PagerAdapter;
 import skesw12.minitrello.models.CardList;
 import skesw12.minitrello.models.Storage;
+import skesw12.minitrello.newactivities.SimpleCardListActivity;
 
 public class MainActivity extends AppCompatActivity {
 //    private EditText inputCardListTitle;
@@ -29,17 +32,6 @@ public class MainActivity extends AppCompatActivity {
     public static PagerAdapter pageradapter;
     public static ViewPager viewPager;
     private TextView textView;
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_delete:
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
 
 
 
@@ -133,6 +125,37 @@ public class MainActivity extends AppCompatActivity {
     private void refresh()
     {
 //        adapter.notifyDataSetChanged();
+        viewPager.notifyAll();
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_delete:
+                showDelete();
+                return true;
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
+
+
+
+    private void showDelete(){
+        Intent intent = new Intent(MainActivity.this,SimpleCardListActivity.class);
+        intent.putExtra("position",viewPager.getCurrentItem());
+        startActivity(intent);
     }
 
 

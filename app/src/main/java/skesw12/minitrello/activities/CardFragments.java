@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -262,7 +263,7 @@ public class CardFragments extends Fragment {
 
     public void addCard(String title){
         int position = MainActivity.viewPager.getCurrentItem();
-        Log.e("check","postion = "+position);
+        Log.e("check", "postion = " + position);
         Storage.getInstance().addCard(position, new Card(title, ""));
     }
 
@@ -285,6 +286,25 @@ public class CardFragments extends Fragment {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_delete:
+                showColorPicker();
+                return true;
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
+
+
+    private void showColorPicker(){
+
     }
 
 
